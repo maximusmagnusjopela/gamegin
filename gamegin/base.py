@@ -8,17 +8,13 @@ base.py
 This module contains the base classes for the game engine
 
 :copyright:  (c) 2015 by Jonathan Pelletier.
-
 """
 
 class State:
 
-    def __init__(self,players,*args,**kvargs):
+    def __init__(self, players, *args, **kvargs):
 
-        self.player_symbols = set({})
-
-        for p in players:
-            self.register_player
+        self.players = players
         return
 
     def succ(self):
@@ -38,16 +34,17 @@ class State:
         """ Returns the symbol of the player that needs to make a move in the current state. """
         raise NotImplementedError()
 
-    def register_player(self, player):
-        """ Adds the player symbol to the list of symbols for the game state """
-        self.player_symbols.add(player.symbol())
-        return
+    def next_player(self):
+        """ Returns the player that will play next. """
+        raise NotImplementedError()
 
-    def next_player(self,
+    def current_player(self):
+        """ Returns the current player. """
+        raise NotImplementedError()
 
 class Player:
 
-    def __init__(self,symboly, *args,**kvargs):
+    def __init__(self, symbol, *args,**kvargs):
         self.symbol = symbol
         return
 
@@ -61,30 +58,28 @@ class Player:
         new_state = max(sucessors, key=self.score)
         return new_state
 
-    def score(self,state):
+    def score(self, state):
         """ Returns a real number representing to value of a given state. """
         raise NotImplementedError()
 
 class Game:
 
-    def __init__(self,state_cls,players,*args,**kvargs):
+    def __init__(self, state, *args, **kvargs):
 
-        self.state = state_cls()
-        self.players = players
-
-        # Register all the players with the state
-        for p in self.players:
-            self.state.register(p)
-
+        self.state = state
         return
 
-
     def start(self):
+        """ Main game loop. """
 
-        while not self.state.
+        ongoing = True
+        while ongoing:
+            for p in self.state.players:
+                self.state = p.play(self.state)
+                if self.state.is_terminal:
+                    ongoing = False
+                    break
 
-
-
-
+        return self.state.winner()
 
 
