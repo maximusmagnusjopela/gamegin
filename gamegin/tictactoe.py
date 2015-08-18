@@ -15,5 +15,8 @@ class TicTactToeState(base.State):
         return
 
     def succ(self):
+
+        next_player_idx = (self.current_player_idx + 1) %  len(self.players)
+        next_symbol =
         return []
 
