@@ -45,12 +45,12 @@ class State:
 class Player:
 
     def __init__(self, symbol, *args,**kvargs):
-        self.symbol = symbol
+        self.player_symbol = symbol
         return
 
     def symbol(self):
         """ Returns the symbol associated with the current player. """
-        return self.symbol
+        return self.player_symbol
 
     def play(self, state):
         """ Returns the best state from the according to the score function. """
