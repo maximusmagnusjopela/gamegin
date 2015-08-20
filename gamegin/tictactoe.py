@@ -16,7 +16,8 @@ class TicTacToeState(base.State):
         return
 
     def __eq__(self,other):
-        self.board == other.board and self.current_player_idx == other.current_player_idx and self.players == other.players
+        return self.board == other.board and self.current_player_idx == other.current_player_idx and self.players == other.players
+
 
     def current_player(self):
         return self.players[self.current_player_idx]

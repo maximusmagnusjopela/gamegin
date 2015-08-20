@@ -18,7 +18,7 @@ class TestTicTacToeState:
         self.tictactoe_state = TicTacToeState(players)
         return
 
-    def teatDown(self):
+    def tearDown(self):
         pass
 
     def test_initstate_tictactoe_sucessors(self):
@@ -33,5 +33,3 @@ class TestTicTacToeState:
             expected_sucessors.append(state)
 
         assert expected_sucessors == self.tictactoe_state.succ()
-
-
