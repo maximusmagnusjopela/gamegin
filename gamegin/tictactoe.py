@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import base
+from gamegin import base
 import copy
 
 class TicTacToeState(base.State):
@@ -16,8 +16,25 @@ class TicTacToeState(base.State):
         return
 
     def __eq__(self,other):
+
         return self.board == other.board and self.current_player_idx == other.current_player_idx and self.players == other.players
 
+    def __unicode__(self):
+
+        print_board = [ i if i != None else " " for i in self.board ]
+        board_template = """
+        *-*-*-*
+        |{}|{}|{}|
+        *-*-*-*
+        |{}|{}|{}|
+        *-*-*-*
+        |{}|{}|{}|
+        *-*-*-*
+        """
+        return board_template.format(*print_board)
+
+    def __repr__(self):
+        return self.__unicode__()
 
     def current_player(self):
         return self.players[self.current_player_idx]
@@ -36,5 +53,9 @@ class TicTacToeState(base.State):
                 successors.append(successor)
 
         return successors
+
+    def is_terminal(self):
+        """ Returns true if the state is a terminal state. """
+        return False
 
 
