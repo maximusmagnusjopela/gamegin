@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from gamegin import base
+import base
 import copy
 
 class TicTacToeState(base.State):
@@ -22,15 +22,14 @@ class TicTacToeState(base.State):
     def __unicode__(self):
 
         print_board = [ i if i != None else " " for i in self.board ]
-        board_template = """
-        *-*-*-*
-        |{}|{}|{}|
-        *-*-*-*
-        |{}|{}|{}|
-        *-*-*-*
-        |{}|{}|{}|
-        *-*-*-*
-        """
+        board_template = \
+     """*-*-*-*
+|{}|{}|{}|
+*-*-*-*
+|{}|{}|{}|
+*-*-*-*
+|{}|{}|{}|
+*-*-*-*"""
         return board_template.format(*print_board)
 
     def __repr__(self):
@@ -58,4 +57,14 @@ class TicTacToeState(base.State):
         """ Returns true if the state is a terminal state. """
         return False
 
+class TicTacToeGameFactory:
+
+    def __init__(self,p1_cls,p2_cls):
+        self.players = [p1_cls('X'), p2_cls('O')]
+        return
+
+    def factory(self):
+        state = TicTacToeState(self.players)
+        game = base.Game(state)
+        return game
 

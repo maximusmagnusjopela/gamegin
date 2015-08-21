@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from gamegin import base
+import base
 import random
 
 class RandomPlayer(base.Player):

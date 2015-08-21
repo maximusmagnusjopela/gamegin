@@ -19,28 +19,28 @@ class State:
 
     def succ(self):
         """ Returns the sucessors of the current state as a generator. """
-        raise NotImplementedError()
+        raise NotImplementedError('succ method is not implemented')
 
     def winner(self):
         """ Returns the symbol of the winning player for the current state, None if the state is a non terminal state
         or if there is no winner. """
-        raise NotImplementedError()
+        raise NotImplementedError('winner method is not implemented')
 
     def is_terminal(self):
         """ Returns true is the state is a terminal state. False otherwise. """
-        raise NotImplementedError()
+        raise NotImplementedError('is_terminal method is not implemented')
 
     def active_player_symbol(self):
         """ Returns the symbol of the player that needs to make a move in the current state. """
-        raise NotImplementedError()
+        raise NotImplementedError('active_player_symbol method is not implemented')
 
     def next_player(self):
         """ Returns the player that will play next. """
-        raise NotImplementedError()
+        raise NotImplementedError('next_player method is not implemented')
 
     def current_player(self):
         """ Returns the current player. """
-        raise NotImplementedError()
+        raise NotImplementedError('current_player method is not implemented')
 
 class Player:
 
@@ -64,9 +64,10 @@ class Player:
 
 class Game:
 
-    def __init__(self, state, *args, **kvargs):
+    def __init__(self, state,human_readable=True, *args, **kvargs):
 
         self.state = state
+        self.human_readable = human_readable
         return
 
     def start(self):
@@ -76,7 +77,9 @@ class Game:
         while ongoing:
             for p in self.state.players:
                 self.state = p.play(self.state)
-                if self.state.is_terminal:
+                if self.human_readable:
+                    print(self.state)
+                if self.state.is_terminal():
                     ongoing = False
                     break
 
