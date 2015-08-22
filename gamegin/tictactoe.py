@@ -55,6 +55,14 @@ class TicTacToeState(base.State):
 
     def is_terminal(self):
         """ Returns true if the state is a terminal state. """
+
+
+        # we have a terminal state if the game board is full
+        free_position_cnt = self.board.count(None)
+        if free_position_cnt == 0:
+            return True
+
+
         return False
 
 class TicTacToeGameFactory:

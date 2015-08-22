@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import sys
+
+sys.path.append('../gamegin')
+
 import nose
 import copy
 
-from gamegin.player import RandomPlayer
-from gamegin.tictactoe import TicTacToeState
+from player import RandomPlayer
+from tictactoe import TicTacToeState
 
 class TestTicTacToeState:
 
@@ -16,6 +20,7 @@ class TestTicTacToeState:
         players = [player_X, player_O]
 
         self.tictactoe_state = TicTacToeState(players)
+
         return
 
     def tearDown(self):
@@ -33,3 +38,4 @@ class TestTicTacToeState:
             expected_sucessors.append(state)
 
         assert expected_sucessors == self.tictactoe_state.succ()
+
