@@ -3,6 +3,7 @@
 
 import base
 import copy
+import util
 
 class TicTacToeState(base.State):
 
@@ -38,6 +39,14 @@ class TicTacToeState(base.State):
     def current_player(self):
         return self.players[self.current_player_idx]
 
+    def next_player(self):
+        next_player_idx = (self.current_player_idx + 1) %  len(self.players)
+        return self.players[next_player_idx]
+
+    def switch_player(self):
+        self.current_player_idx = (self.current_player_idx + 1) % len(self.players)
+        return
+
     def succ(self):
 
         next_player_idx = (self.current_player_idx + 1) %  len(self.players)
@@ -56,14 +65,49 @@ class TicTacToeState(base.State):
     def is_terminal(self):
         """ Returns true if the state is a terminal state. """
 
-
         # we have a terminal state if the game board is full
         free_position_cnt = self.board.count(None)
         if free_position_cnt == 0:
             return True
 
+        lines = board_lines()
 
-        return False
+        for line_indexes in lines:
+            line_items = [ self.board[i] for i in line_indexes ]
+
+            if line_items.count(None) == 0 and util.is_unique(line_items):
+                return line_items[0]
+
+        return None
+
+    def prompt_state_str(self):
+        state_cp = copy.deepcopy(self)
+        for i, symbol in enumerate(state_cp.board):
+            if symbol is None:
+                state_cp.board[i] = i
+
+        prompt_str =  state_cp.__unicode__() + '\n' + "Select the index of your next move:"
+        return prompt_str
+
+
+    def transition(self,transition_str):
+
+        valid_str_indexes = set("012345678")
+        valid_board_indexes = { i for i, sym in enumerate(self.board) if sym is None }
+
+        if transition_str in valid_str_indexes:
+            index = int(transition_str)
+            if index in valid_board_indexes:
+                selected_state = copy.deepcopy(self)
+                selected_state.board[index] = selected_state.current_player().symbol()
+                selected_state.switch_player()
+                return selected_state
+
+        return None
+
+    def winner(self):
+        """ Returns the symbol of the winning player. None if not terminal state or draw. """
+        return self.is_terminal()
 
 class TicTacToeGameFactory:
 
@@ -75,4 +119,21 @@ class TicTacToeGameFactory:
         state = TicTacToeState(self.players)
         game = base.Game(state)
         return game
+
+def board_lines():
+    """ Returns a collection of lines on the board """
+    lines = []
+    # horizontal lines
+    for i in (0,3,6):
+        lines.append(range(i,i+3))
+
+    # vertical lines
+    for i in (0,1,2):
+        lines.append(range(i,i+7,3))
+
+    # diagonal lines
+    lines.append([0,4,8])
+    lines.append([2,4,6])
+
+    return lines
 
