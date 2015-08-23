@@ -42,6 +42,21 @@ class State:
         """ Returns the current player. """
         raise NotImplementedError('current_player method is not implemented')
 
+    def switch_player(self):
+        """ Assign the next player index to the current player index. """
+        raise NotImplementedError('switch_player mehod is not implemented')
+
+    def prompt_state_str(self):
+        """ Returns a string that is suitable for the selection of a next state by a human player. """
+        raise NotImplementedError('prompt_state_str method is not implemented')
+
+    def transition(self,transition_str):
+        """ Returns the sate obtained by applying the transition_str to the current state. Taking the example of
+        a tictactoe game, the transition_str might specify the index position on the board where the player wish
+        to place is symbol next. If the transition_str specify an invalid transition for the current state, the
+        method MUST return None. """
+        raise NotImplementedError('transition method not implemented')
+
 class Player:
 
     def __init__(self, symbol, *args,**kvargs):
