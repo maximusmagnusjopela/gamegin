@@ -20,7 +20,7 @@ def main():
 
     # build the correct game
     if args.game == 'tictactoe':
-        game = tictactoe.TicTacToeGameFactory(player.RandomPlayer, player.RandomPlayer).factory()
+        game = tictactoe.TicTacToeGameFactory(player.HumanPlayer, player.RandomPlayer).factory()
     else:
         return
 
